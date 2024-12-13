@@ -11,7 +11,7 @@ export default function UserHome() {
             <div className="border-b-2 ">
                 <h1 className="font-extrabold text-3xl my-4  text-blue-400 text-center">Wecome To The Profile Viewer</h1>
             </div>
-            <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  m-5">
+            <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  m-3">
                 
                 {
                     profiles && profiles?.length > 0 ?

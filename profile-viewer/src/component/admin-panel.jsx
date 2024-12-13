@@ -90,7 +90,8 @@ export default function AdminPannel() {
 
     return (
         <div className=" flex flex-col">
-            <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  m-5">
+            <div className="text-center text-xl font-serif font-semibold border-2 rounded-lg mx-4 my-2 py-5 bg-slate-700 text-white " >ADMIN PANNEL</div>
+            <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  m-4">
                 {
                     profileList && profileList?.length > 0 ?
                         profileList.map((singleProfile, index) =>
@@ -102,7 +103,7 @@ export default function AdminPannel() {
             {/* adding profiles */}
             <form onSubmit={handleOnAddingProfile}>
                 <div ref={editRef} className=" m-5 min-h-[100px] border-2 rounded-lg overflow-hidden p-5 flex flex-col gap-2">
-                    <h1 className="border-b-2 pb-2 font-semibold">{isEditMode !==null ? 'Edit Profile':'Add Profiles'}</h1>
+                    <h1 className="border-b-2 pb-2 font-semibold  pl-1">{isEditMode !==null ? 'Edit Profile':'Add Profiles'}</h1>
                     <input value={profileData.name} onChange={handleOnChange} className="border-2 rounded-lg p-2" type="text" placeholder="Enter Your Name" name="name" />
                     <input value={profileData.email} onChange={handleOnChange} className="border-2 rounded-lg p-2" type="email" placeholder="Enter Your Email" name="email" />
                     <input value={profileData.role} onChange={handleOnChange} className="border-2 rounded-lg p-2" type="text" placeholder="Enter Your Role" name="role" />
