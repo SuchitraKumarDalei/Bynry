@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-export default function ProfileCard ({profile,handleProfileEdit,admin}){
+export default function ProfileCard ({profile,handleProfileEdit,admin,handleProfileDelete}){
     const navigate = useNavigate();
     return (
         <div className="p-3 rounded-lg border-2 grid grid-cols-2">
@@ -21,7 +21,7 @@ export default function ProfileCard ({profile,handleProfileEdit,admin}){
                 <div className="flex gap-3 justify-between">
                 <button onClick={()=>navigate('/home/profile-details',{state : profile})} className="bg-black text-white rounded-lg p-3">Detail</button>
                 {admin ? <button onClick={()=>handleProfileEdit(profile)} className="bg-black text-white rounded-lg p-3">Edit</button> : null}
-                {admin ? <button className="bg-black text-white rounded-lg p-3">Delete</button> : null}
+                {admin ? <button onClick={()=>handleProfileDelete(profile)} className="bg-black text-white rounded-lg p-3">Delete</button> : null}
             </div>
             </div>
             

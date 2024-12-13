@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ProfileCard from "./profile-card";
 
 export default function AdminPannel() {
@@ -14,8 +14,10 @@ export default function AdminPannel() {
     const [profileList, setProfileList] = useState([]);
     const [isEditMode,setIsEditedMode] = useState(null);
     const [isEdited, setIsEdited] = useState({});
+    const editRef = useRef(null);
 
     function handleProfileEdit(getCurrentProfile){
+        editRef.current.scrollIntoView({behavior : 'smooth'});
         setIsEditedMode(getCurrentProfile.email)
         setIsEdited(getCurrentProfile);
         setProfileData(getCurrentProfile)
@@ -53,33 +55,53 @@ export default function AdminPannel() {
         localStorage.setItem('profileList', JSON.stringify(cpyProfile));
         
     }
-   
+
+    function handleProfileDelete(getCurrentProfile){
+        
+        var copyOfProfile = [...profileList];
+        const findIndexOfCurrentProfile = copyOfProfile.findIndex(singleProfile=>getCurrentProfile.email === singleProfile.email)
+
+        if(findIndexOfCurrentProfile !== -1){
+            copyOfProfile = copyOfProfile.filter((prof)=>{
+                return getCurrentProfile !== prof
+            })
+
+            setProfileList(copyOfProfile);
+            localStorage.setItem('profileList',JSON.stringify(copyOfProfile));
+        }else{
+            console.log("Items is not available")
+        }
+    }
+
     function handleOnChange(e) {
         setProfileData({
             ...profileData,
             [e.target.name]: e.target.value
         })
     }
+
     function validFormData() {
         return Object.keys(profileData).map(key => profileData[key] !== '').every(item => item);
     }
+
     useEffect(() => {
         setProfileList(JSON.parse(localStorage.getItem('profileList')) || []);
     },[]);
+
     return (
         <div className=" flex flex-col">
             <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  m-5">
                 {
                     profileList && profileList?.length > 0 ?
                         profileList.map((singleProfile, index) =>
-                            <ProfileCard profile={singleProfile}  handleProfileEdit={handleProfileEdit} key={index} admin={true} />
+                            <ProfileCard profile={singleProfile}  handleProfileEdit={handleProfileEdit} key={index} handleProfileDelete={handleProfileDelete} admin={true}/>
                         )
                         : <h1 className="ml-7 mt-4 text-xl font-semibold text-red-500">Please add some profiles!...</h1>
                 }
             </div>
             {/* adding profiles */}
             <form onSubmit={handleOnAddingProfile}>
-                <div className=" m-5 min-h-[100px] border-2 rounded-lg overflow-hidden p-5 flex flex-col gap-2">
+                <div ref={editRef} className=" m-5 min-h-[100px] border-2 rounded-lg overflow-hidden p-5 flex flex-col gap-2">
                     <h1 className="border-b-2 pb-2 font-semibold">{isEditMode !==null ? 'Edit Profile':'Add Profiles'}</h1>
                     <input value={profileData.name} onChange={handleOnChange} className="border-2 rounded-lg p-2" type="text" placeholder="Enter Your Name" name="name" />
                     <input value={profileData.email} onChange={handleOnChange} className="border-2 rounded-lg p-2" type="email" placeholder="Enter Your Email" name="email" />
